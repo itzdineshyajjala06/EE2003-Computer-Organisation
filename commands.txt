@@ -1,0 +1,6 @@
+./config.sh champsim_config.json
+make
+
+ls -l /root/ChampSim/tracer/bwaves_1609B.trace.xz
+
+bin/champsim --warmup_instructions 200000000 --simulation_instructions 500000000 /root/ChampSim/tracer/bwaves_1609B.trace.xz

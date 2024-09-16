@@ -1,0 +1,24 @@
+`timescale 1ns / 1ps
+
+module testbench;
+    reg signed [7:0] Dividend;
+    reg signed [7:0] Divisor;
+    wire signed [7:0] Quotient;
+    wire signed [7:0] Remainder;
+
+    NonRestoringDivision uut (
+        .Dividend(Dividend), 
+        .Divisor(Divisor), 
+        .Quotient(Quotient), 
+        .Remainder(Remainder)
+    );
+
+    initial begin
+        // Initialize inputs
+        Dividend = 8'd15;
+        Divisor = 8'd3;
+
+        // Wait for 100 ns for the results to propagate
+        #100;
+    end
+endmodule

@@ -1,0 +1,40 @@
+module NonRestoringDivision(
+    input signed [7:0] Dividend,
+    input signed [7:0] Divisor,
+    output reg signed [7:0] Quotient,
+    output reg signed [7:0] Remainder
+);
+    reg [15:0] dividend;
+    reg [15:0] divisor;
+    reg [15:0] remainder;
+    integer i;
+
+    always @(Dividend, Divisor) begin
+        dividend = Dividend;
+        divisor = Divisor << 8;
+        remainder = 0;
+        Quotient = 0;
+
+        for(i = 0; i < 8; i = i+1) begin
+            remainder = remainder << 1;
+            remainder[0] = dividend[15];
+            dividend = dividend << 1;
+
+            if(remainder[15] == divisor[15]) begin
+                remainder = remainder - divisor;
+                Quotient = Quotient << 1;
+                Quotient[0] = 1'b1;
+            end else begin
+                remainder = remainder + divisor;
+                Quotient = Quotient << 1;
+            end
+        end
+
+        // Rounding
+        if(remainder[15] == divisor[15]) begin
+            Quotient = Quotient + 1'b1;
+        end
+
+        Remainder = remainder[7:0];
+    end
+endmodule
